@@ -1,0 +1,32 @@
+{
+  "name": "vcsserver",
+  "version": "1.0.0",
+  "description": "vcs-backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vcs"
+  ],
+  "author": "jncore",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.28.0",
+    "date-fns-tz": "^1.2.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
+    "mongoose": "^6.0.12",
+    "nodemon": "^2.0.14",
+    "puppeteer": "^11.0.0",
+    "yarn": "^1.22.17"
+  }
+}
