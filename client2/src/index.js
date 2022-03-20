@@ -3,19 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-import { ConfigProvider } from "antd";
-import koKR from "antd/lib/locale/ko_KR";
+
 import "antd/dist/antd.css";
 
 ReactDOM.render(
-  <ConfigProvider locale={koKR}>
-    <BrowserRouter>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </BrowserRouter>
-  </ConfigProvider>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

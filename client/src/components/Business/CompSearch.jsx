@@ -1,4 +1,5 @@
 import {
+  Alert,
   Chip,
   Divider,
   Table,
@@ -10,36 +11,30 @@ import {
   TextField,
 } from "@mui/material";
 import styled from "styled-components";
+import { Container, TitleWrapper } from "./BusinessStyles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Box } from "@mui/system";
 import { lightGreen, orange } from "@mui/material/colors";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  font-size: 16px;
-  font-weight: 600;
-  width: 100%;
-  height: 40px;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-left: 15%;
-`;
+import SubListTable from "./SubListTable";
+import { useEffect, useState } from "react";
+import { CompList } from "../Datas/compData";
+import Inko from "inko";
 
 const SearchWrapper = styled.div`
   display: flex;
   height: 60px;
-  width: 80%;
+  width: 100%;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const AlertWrapper = styled.div`
+  display: flex;
+  height: 50px;
+  width: 100%;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 10px;
 `;
@@ -59,16 +54,55 @@ const ResultWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 15px;
 `;
 
-const CompSearch = () => {
+const CompSearch = (props) => {
+  const [compList, setCompList] = useState([]);
+  const [filterdCompList, setFilteredCompList] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [transKeyword, setTransKeyword] = useState("");
+  const inko = new Inko();
+
+  useEffect(() => {
+    setCompList(() => CompList);
+  }, []);
+
+  useEffect(() => {
+    setFilteredCompList(() =>
+      compList.filter(
+        (item) =>
+          item.compName.includes(searchKeyword) ||
+          item.compName.includes(inko.en2ko(searchKeyword)) ||
+          item.compBoss.includes(searchKeyword) ||
+          item.compBoss.includes(inko.en2ko(searchKeyword)) ||
+          item.compNum.includes(searchKeyword)
+      )
+    );
+    setTransKeyword(
+      searchKeyword !== inko.en2ko(searchKeyword) && inko.en2ko(searchKeyword)
+    );
+  }, [searchKeyword]);
+
   return (
     <Container>
-      <TitleWrapper>고객사검색</TitleWrapper>
+      <TitleWrapper>고객사 검색</TitleWrapper>
       <SearchWrapper>
-        <TextField variant="standard" sx={{ width: 400 }} />
+        <TextField
+          value={searchKeyword}
+          variant="standard"
+          sx={{ width: "100%" }}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+        />
         <FontAwesomeIcon icon={faSearch} />
       </SearchWrapper>
+      <AlertWrapper>
+        <Alert severity="info" sx={{ width: "100%" }}>
+          {transKeyword.length
+            ? `"${transKeyword}" 키워드도 함께 검색합니다.`
+            : "한영 자동 변환하여 검색합니다.(상호, 대표자 이름, 사업자등록번호 통합 검색)"}
+        </Alert>
+      </AlertWrapper>
       <FavoriteWrapper>
         <Box margin={1}>
           <Chip
@@ -125,49 +159,13 @@ const CompSearch = () => {
         <Divider />
       </div>
       <ResultWrapper>
-        <TableContainer sx={{ maxHeight: 200 }}>
-          <Table>
-            <TableHead>
-              <TableRow
-                align="center"
-                style={{ backgroundColor: "whitesmoke", fontWeight: "700" }}
-              >
-                <TableCell
-                  align="left"
-                  width={"70%"}
-                  style={{ fontWeight: 700 }}
-                >
-                  회사명
-                </TableCell>
-                <TableCell
-                  align="center"
-                  width={"30%"}
-                  style={{ fontWeight: 700 }}
-                >
-                  사업자번호
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell
-                  align="left"
-                  width={"70%"}
-                  style={{ fontWeight: 500 }}
-                >
-                  (주)이루온
-                </TableCell>
-                <TableCell
-                  align="center"
-                  width={"30%"}
-                  style={{ fontWeight: 500 }}
-                >
-                  123-45678-18
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <SubListTable
+          header={["회사명", "사업자번호"]}
+          context={filterdCompList}
+          width={["65%", "35%"]}
+          target="compInfo"
+          size="small"
+        />
       </ResultWrapper>
     </Container>
   );

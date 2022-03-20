@@ -9,6 +9,7 @@ import {
   faUsers,
   faFileInvoiceDollar,
   faColumns,
+  faListAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "@mui/material";
@@ -18,6 +19,7 @@ import { Box, typography } from "@mui/system";
 
 const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -29,6 +31,7 @@ const Wrapper = styled.div`
   width: 80%;
   height: 70px;
   display: flex;
+
   justify-content: space-between;
 `;
 const IconGroup = styled.div`
@@ -45,7 +48,7 @@ const IconBox = styled.span`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 1.3rem;
   text-align: center;
   cursor: pointer;
 
@@ -86,6 +89,13 @@ const TopMenu = () => {
               </IconBox>
             </Link>
           </Tooltip>
+          <Tooltip title="거래원장" placement="bottom">
+            <Link to="/ledger">
+              <IconBox>
+                <FontAwesomeIcon icon={faListAlt} />
+              </IconBox>
+            </Link>
+          </Tooltip>
           <Tooltip title="영업활동" placement="bottom">
             <Link to="/sales">
               <IconBox>
@@ -107,7 +117,7 @@ const TopMenu = () => {
               </IconBox>
             </Link>
           </Tooltip>
-          <Tooltip title="자주하는 질물" placement="bottom">
+          <Tooltip title="자주하는 질문" placement="bottom">
             <Link to="/register">
               <IconBox>
                 <FontAwesomeIcon icon={faQuestion} />
@@ -115,9 +125,11 @@ const TopMenu = () => {
             </Link>
           </Tooltip>
           <Tooltip title="구성원관리" placement="bottom">
-            <IconBox>
-              <FontAwesomeIcon icon={faUsers} />
-            </IconBox>
+            <Link to="/salesPrint">
+              <IconBox>
+                <FontAwesomeIcon icon={faUsers} />
+              </IconBox>
+            </Link>
           </Tooltip>
         </IconGroup>
       </Wrapper>

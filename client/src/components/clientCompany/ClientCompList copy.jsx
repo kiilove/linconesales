@@ -5,14 +5,10 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { green, grey, orange, red } from "@mui/material/colors";
-import { PageHeader, Descriptions } from "antd";
-
 import {
+  Button,
   CircularProgress,
   Fade,
-  Button,
-  Stack,
   FormControlLabel,
   Modal,
   Radio,
@@ -79,18 +75,9 @@ const ListActionBox = styled.div`
   flex: 1;
 `;
 
-const HeaderWrapper = styled.div`
-  padding: 14px;
-  background-color: ${grey[200]};
-`;
-
 const SearchIcon = <FontAwesomeIcon icon={faSearch} />;
-const ExcelIcon = (
-  <FontAwesomeIcon icon={faFileExcel} style={{ marginRight: 10 }} />
-);
-const KeyboardIcon = (
-  <FontAwesomeIcon icon={faKeyboard} style={{ marginRight: 10 }} />
-);
+const ExcelIcon = <FontAwesomeIcon icon={faFileExcel} />;
+const KeyboardIcon = <FontAwesomeIcon icon={faKeyboard} />;
 const Redo = <FontAwesomeIcon icon={faRedo} />;
 
 const ClientCompList = () => {
@@ -100,50 +87,45 @@ const ClientCompList = () => {
   const handleCloseNewComp = () => setOpenNewComp(false);
   return (
     <Container>
-      <Stack>
-        <HeaderWrapper>
-          <PageHeader
-            ghost={false}
-            title="고객사 목록"
-            subTitle="고객사 목록을 확인할 수 있으며, 세부 내용을 편집할 수 있습니다."
-            extra={[
-              <Button
-                variant="outlined"
-                disableElevation
-                color="primary"
-                startIcon={Redo}
-                sx={{ marginLeft: "10px", height: "40px" }}
-              >
-                새로고침
-              </Button>,
-              <Button
-                variant="outlined"
-                disableElevation
-                color="secondary"
-                startIcon={KeyboardIcon}
-                sx={{ marginLeft: "10px", height: "40px" }}
-                onClick={handleOpenNewComp}
-              >
-                간편등록
-              </Button>,
-              <Button
-                variant="outlined"
-                disableElevation
-                color="success"
-                startIcon={ExcelIcon}
-                sx={{ marginLeft: "10px", height: "40px" }}
-              >
-                엑셀등록
-              </Button>,
-            ]}
-          >
-            <Descriptions size="small" column={3}>
-              <Descriptions.Item label="총 고객사 수">1,234</Descriptions.Item>
-            </Descriptions>
-          </PageHeader>
-        </HeaderWrapper>
-      </Stack>
       <Canvas>
+        <ComponentHeaderWrapper>
+          <ComponentHeaderTitle color={indigo[500]}>
+            고객사 목록
+          </ComponentHeaderTitle>
+          <ListActionWrapper style={{ justifyContent: "flex-end" }}>
+            <Button
+              variant="outlined"
+              disableElevation
+              color="primary"
+              startIcon={Redo}
+              sx={{ marginLeft: "10px", height: "40px" }}
+            >
+              새로고침
+            </Button>
+            <Button
+              variant="contained"
+              disableElevation
+              color="secondary"
+              startIcon={KeyboardIcon}
+              sx={{ marginLeft: "10px", height: "40px" }}
+              onClick={handleOpenNewComp}
+            >
+              간편등록
+            </Button>
+            <Button
+              variant="contained"
+              disableElevation
+              color="success"
+              startIcon={ExcelIcon}
+              sx={{ marginLeft: "10px", height: "40px" }}
+            >
+              엑셀등록
+            </Button>
+            <Modal open={openNewComp} onClose={handleCloseNewComp}>
+              <CreateClientCompany />
+            </Modal>
+          </ListActionWrapper>
+        </ComponentHeaderWrapper>
         <ListActionWrapper>
           <ListActionBox>
             <RadioGroup row name="row-radio-buttons-group">
